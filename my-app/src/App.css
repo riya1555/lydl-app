@@ -1,0 +1,199 @@
+*,*::before,*::after{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+nav{
+  box-shadow: none;
+  margin-top: 3px;
+  position: absolute;
+  top: 0px;
+  align-items: center;
+  width: 100vw;
+  background-color: transparent;
+  z-index: 99;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: inline-flex;
+  color: #091E49;
+}
+
+/*             SIGNIN/SIGNUP               */
+
+.mycard{
+  margin-top: 30px;
+}
+.auth-card{
+  padding: 20px;
+  text-align: center;
+  max-width: 400px;
+  margin: 10px auto;
+}
+.listcard{
+  text-align: center;
+  max-width: 500px;
+  margin: 10px auto;
+  width: 70%;
+}
+.listcarditem {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #F1F1F1;
+}
+/* ABOUT*/
+.about{
+ max-width: 900px;
+}
+.input-field input[type=text]:focus {
+  border-bottom: 1px solid rgb(8, 93, 252) !important;
+  box-shadow: 0 1px 0 0 rgb(8, 93, 252)  !important;
+}
+.input-field input[type=password]:focus {
+  border-bottom: 1px solid rgb(8, 93, 252) !important;
+  box-shadow: 0 1px 0 0 rgb(8, 93, 252)  !important;
+}
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  text-decoration: none;
+  max-width: 400px;
+  margin: 10px auto;
+}
+.fa:hover {
+    opacity: 0.7;
+}
+.fa-google {
+  background: #3f51b5;
+  color: white;
+}
+/* parallax*/
+.parallax-container {
+      height: 56vw;
+      min-height: 200px;
+    }
+.parallax img {
+    max-width: 100%;
+    top:-200px;
+}
+
+.col:nth-of-type(1){
+    background-color:#08d9d6;
+    text-align: center;
+}
+
+.col{
+  height:100vh;
+}
+.ul{
+  position:absolute;
+  top:60vh;
+  left:30%;
+}
+
+
+.empty{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+.empty2{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top:300vh;
+}
+.empty3{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top:200vh;
+}
+.nav-wrapper{
+  position: absolute;
+  width: 100%;
+}
+.parallax-container{
+  object-fit:cover;
+}
+.brand-logo1{
+  margin-left:5vw;
+  margin-top:3vh;
+  font-family: 'Dancing Script', cursive;
+}
+.gsbtn{
+    position: absolute;
+    border-radius:5px;
+    margin-right:5vw !important;
+    margin-top:6vh !important;
+}
+div{
+  display:content
+}
+.transitions-item {
+  position: static;
+  overflow: hidden;
+  width: 100%;
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 5vw;
+  font-weight: 800;
+  text-transform: uppercase;
+  will-change: transform, opacity, height;
+  white-space: nowrap;
+  cursor: pointer;
+  line-height: 5vw;
+}
+.animcon{
+  position:absolute;
+  left:50%;
+  top:18vw;
+}
+
+ /*  Draggablelist */
+
+
+.content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+}
+
+.content > div {
+  position: absolute;
+  height: 30px;
+  width:100%;
+  overflow: hidden;
+  pointer-events: auto;
+  transform-origin: 50% 50% 0px;
+  border: none;
+  color: black;
+  line-height: 27px;
+  padding-left: 32px;
+  font-size: 14.5px;
+  background: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: left;
+}
+
+.addbtn{
+  position: absolute;
+  bottom:0;
+  left: 0;
+  right:0;
+  margin-top: 20px;
+}
+
+/* Draggablelist ENDS*/

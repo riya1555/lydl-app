@@ -1,0 +1,12 @@
+
+/* parallax*/
+
+.parallax-container {
+      height: 56vw;
+      min-height: 200px;
+    }
+.parallax img {
+    max-width: 100%;
+    top:-200px;
+}
+/*

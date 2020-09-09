@@ -1,0 +1,224 @@
+*,*::before,*::after{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+}
+nav{
+  margin-top: 3px;
+  position: absolute;
+  align-items: center;
+  width: 100vw;
+  background-color: transparent;
+  z-index: 99;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: inline-flex;
+  color: #091E49;
+}
+
+.nav-logo{
+  flex-grow: 20;
+}
+.level{
+flex-grow: 1;
+text-align: center;
+font-size: 18px;
+line-height: 21px;
+color: #000000;
+}
+.nav-items{
+flex-grow: 1;
+font-size: 24px;
+line-height: 28px;
+color: #000000;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.profile-pic{
+flex-grow: 1;
+}
+.homepage .left{
+   background-image: url(images/Rectangle12.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 50vw;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+}
+.calender{
+  text-align: center;
+}
+
+.calender h1{
+  font-size: 144px;
+  line-height: 169px;
+  font-weight: bolder;
+  font-style: normal;
+  font-size: 144px;
+}
+.calender p{
+  font-size: 48px;
+}
+.scrollspy{
+color: #C4C4C4;
+}
+.scrollspy ul{
+  list-style-type:circle;
+  font-size: 18px;
+  line-height: 50px;
+}
+.scrollspy ul :first-child{
+  list-style-type:disc;
+  color: white;
+  font-weight: 900;
+  text-shadow: 1px
+}
+.right{
+  position:absolute;
+  height: 100vh;
+  width: 50vw;
+  top: 0;
+  right: 0;
+  z-index: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: black;
+}
+.todolist{
+  position: absolute;
+  max-width: 46vw;
+  width: 481px;
+  height: 593px;
+  background: #F4FCFC;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+  padding: 10px 30px
+}
+.todolist h3{
+font-size: 30px;
+line-height: 45px;
+letter-spacing: 0.04em;
+color: #091E49;
+}
+.todolist ul{
+flex: 80%;
+font-weight: normal;
+font-size: 22px;
+line-height: 33px;
+letter-spacing: 0.08em;
+}
+.inputtodo{
+  position: absolute;
+  bottom: 8px;
+  background-color: transparent;
+  bottom: 10px;
+  width: 80%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+.todolist input{
+  background-color: transparent;
+  border: none;
+  border-bottom: solid 2px;
+  border-color: #091E49;
+  width:80%;
+  font-size:22px;
+  padding-left:20px;
+  text-transform: uppercase;
+}
+.todolist input:focus{
+    outline: none;
+}
+.todolist img{
+  display: inline;
+  width: auto;
+}
+.diarypage{
+  position: absolute;
+  top: 100vh;
+  height: 100vh;
+  width: 100vw;
+}
+.diarypage .right{
+  background-image: url(images/Rectangle12.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 50vw;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+}
+.diarypage .left{
+  height: 100vh;
+  width: 50vw;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.diarypage .left h1{
+font-weight: 600;
+font-size: 39px;
+line-height: 58px;
+color: #08D9D6;
+}
+.diarypage .left .textarea{
+  border-bottom:  1px solid black;
+  color: #08D9D6;
+  width: 80%;
+  min-height: 32px;
+  font-size: 32px;
+  max-height: 90vh;
+}
+.diarypage .left .textarea:focus{
+  outline: none;
+}
+/* //select calender page*/
+.selectdate .left
+{
+  background: #F4FCFC;
+}
+.selectdate .left .line {
+  position: absolute;
+  height: 50vh;
+  width: 10px;
+  border-radius: 10px;
+  left: 7vw;
+  background: grey;
+}
+.selectdate .left .line:nth-of-type(2){
+  left: 14vw;
+}
+.selectdate .left .line:nth-of-type(3){
+  left: 21vw;
+}
+.selectdate .left .line:nth-of-type(4){
+  left: 28vw;
+}
+.selectdate .left .line:nth-of-type(5){
+  left: 35vw;
+}
+.selectdate .left .line:nth-of-type(6){
+  left: 42vw;
+}
