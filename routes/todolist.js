@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const User = mongoose.model("User")
 const Task = mongoose.model("Task")
 const Goal = mongoose.model("Goal")
-const requireLogin = require('../middleware/requireLogin')
+const requireLogin = require('../middleware/requireLogin.js')
 const cors = require('cors')
 router.use(cors())
 router.get('/task/:id/:id2',requireLogin,(req,res)=>{
