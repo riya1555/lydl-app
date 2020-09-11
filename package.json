@@ -18,9 +18,9 @@
   "devDependencies": {},
   "scripts": {
     "build": "cd my-app && npm run build",
-    "install-client": "cd my-app && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build",
-    "start": "node App.js"
+    "my-app-install": "cd my-app && npm install",
+    "start": "node App.js",
+    "heroku-postbuild": "npm run install --prefix my-app && npm run build --prefix my-app",
   },
   "author": "",
   "license": "ISC"
