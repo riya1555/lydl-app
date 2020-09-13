@@ -5,7 +5,7 @@ const User = mongoose.model("User")
 const Task = mongoose.model("Task")
 const Goal = mongoose.model("Goal")
 const Diary =mongoose.model("Diary")
-const requireLogin = require('../middleware/requireLogin')
+const requireLogin = require('../middleware/requirelogin')
 const cors = require('cors')
 router.use(cors())
 router.post("/adddiary",requireLogin,(req,res)=>{
