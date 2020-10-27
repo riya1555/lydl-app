@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SpringModal from './addtodoitempopup.js'
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditTask from './editdialog.js'
-// Returns fitting styles for dragged/idle items
+import TaskDetailsDialog from './TaskDetailsDialog.js'
 export const fn = (order, down, originalIndex, curIndex, y) => index =>
   down && index === originalIndex
     ? { y: curIndex * 30 + y, scale: 1.1, zIndex: '1', shadow: 1, immediate: n => n === 'y' || n === 'zIndex' }
@@ -17,23 +17,20 @@ export const fn = (order, down, originalIndex, curIndex, y) => index =>
 export function Draggablelist({userr}) {
   const user=useContext(MyContext)
   const [fetched,setfetched]=useState(false)
-  const [items,setItems]=useState(user.data.todolist)
+  const [items,setItems]=useState(['',''])
   const [viewProperty,setViewProperty]=useState([])
   const order = useRef(items.map((_, index) => index)) // Store indicies as a local ref, this represents the item order
   const [springs, setSprings] = useSprings(items.length, fn(order.current)) // Create springs, each corresponds to an item, controlling its transform, scale, etc.
   const bind = useGesture(({ args: [originalIndex],event, down, delta: [, y] }) => {
-    console.log(event)
     const curIndex = order.current.indexOf(originalIndex)
     const curRow = clamp(Math.round((curIndex * 30 + y) / 30), 0, items.length - 1)
     const newOrder = swap(order.current, curIndex, curRow)
     setSprings(fn(newOrder, down, originalIndex, curIndex, y)) // Feed springs new style data, they'll animate the view without causing a single render
     if (!down){
       order.current = newOrder
-      console.log(originalIndex)
     }
   })
   useEffect(()=>{
-    console.log('rendered');
       fetch("/getalltasks/"+new Date().getDate()+"/"+new Date().getMonth()+"/"+new Date().getYear(),{
           method:"GET",
           headers:{
@@ -42,16 +39,18 @@ export function Draggablelist({userr}) {
       }).then(res=>res.json())
       .then(data=>{
          if(data.error){
-            console.log(data);
+            console.log(data)
          }
          else{
-          setItems(data);
-          setfetched(true);
+          setItems(data)
+          setfetched(true)
+          order.current=items.map((_, index) => index)
+          setSprings(data,fn(order.current))
          }
       }).catch(err=>{
           console.log(err)
       })
-  },[user.data.todolist])
+  },[fetched])
 function handleCheck(event,i){
     event.target.checked=!event.target.checked
     setItems((items)=>{
@@ -76,13 +75,14 @@ function handleCheck(event,i){
         },
       }).then(console.log("done")).catch(err=>console.log(err))
     }
-    return temp;
-    });
-    console.log(items);
+    return temp
+    })
+    console.log(items)
 }
 function deleteTask(e,i){
   fetch("/deletetask/"+items[i]._id)
-  const temp=[...items].filter((item => item !== items[i]));
+  const temp=[...items].filter((item => item !== items[i]))
+  console.log(temp);
   setItems(temp)
 }
 function handleMouseOver(i){
@@ -91,7 +91,6 @@ setViewProperty((viewProperty)=>{
   temp[i]=true
   return [...temp]
 })
-console.log(viewProperty);
 }
 function handleMouseLeave(i){
 setViewProperty((viewProperty)=>{
@@ -99,8 +98,8 @@ setViewProperty((viewProperty)=>{
   temp[i]=false
   return [...temp]
 })
-console.log(viewProperty);
 }
+
 if(fetched)
   return (
     <div >
@@ -125,15 +124,13 @@ if(fetched)
           name={items[i].taskName}
           color="primary"
         />
-        {items[i].taskName.slice(0,30)}
+        <TaskDetailsDialog item={items[i]}/>
         <DeleteIcon onClick={(e)=>{deleteTask(e,i)}} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>
-        <EditTask item={items[i]} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>
+        <EditTask onClick={()=>handleMouseLeave(i)} item={items[i]} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>
         </animated.div>
-
       )})}
     </ul>
-
-     <SpringModal/>
+     <SpringModal prop={[fetched,setfetched]}/>
 </div>
   )
   else

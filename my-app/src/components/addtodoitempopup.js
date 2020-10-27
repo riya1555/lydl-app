@@ -101,12 +101,12 @@ Fade.propTypes = {
   onExited: PropTypes.func,
 };
 
-export default function SpringModal() {
+export default function SpringModal(props) {
 const classes = useStyles();
 const [open, setOpen] = React.useState(false);
 const [fullWidth, setFullWidth] = React.useState(true);
 const [maxWidth, setMaxWidth] = React.useState('sm');
-
+const [fetched,setfetched]=props.prop
 const handleClickOpen = () => {
   setOpen(true);
 };
@@ -147,6 +147,7 @@ const handleChange = (prop) => (event) => {
     handleClickOpen()
   }
   const PostData= ()=>{
+    setfetched(false)
     setTask({...task,taskName:""});
     fetch("/addtask",{
         method:"post",

@@ -31,7 +31,7 @@ router.get("/ff",function(req,res){
 }})
 router.post("/signup",function(req,res){
   console.log(req)
-  User.register({username:req.body.username},req.body.password,function(err,user){
+  User.register({username:req.body.username,email:req.body.email,pic:req.body.url},req.body.password,function(err,user){
     if(err){
       console.log(err);
       res.json({error: err}) ;

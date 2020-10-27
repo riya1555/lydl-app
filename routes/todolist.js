@@ -8,12 +8,21 @@ const Goal = mongoose.model("Goal")
 const requireLogin = require('../middleware/requirelogin')
 const cors = require('cors')
 router.use(cors())
-router.get('/task/:id/:id2',requireLogin,(req,res)=>{
+// '/task/:id/:id2'
+//'/getalltasks/:datenum/:monthnum/:yearnum'
+//"/addtask"
+
+router.get('/task/:id',requireLogin,(req,res)=>{
     console.log(req.params.id);
     Task.findById(req.params.id, function (err, task) {
+      console.log(task)
+      if(err){
+        console.log(err);
+      }
       if(!err){
       if(!req.params.id2){
-        res.json(task);
+        console.log(task)
+        res.json(task)
       }
       else{
         res.json(task[req.params.id2]);
@@ -21,15 +30,33 @@ router.get('/task/:id/:id2',requireLogin,(req,res)=>{
     }
     })
 })
+router.post('/skip/task/:id',requireLogin,(req,res)=>{
+  Task.findByIdAndUpdate(req.params.id,{$push:{datesSkipped:req.body.date}}, function (err, task) {
+    console.log(task)
+    if(err){
+      console.log(err)
+    }
+    if(!err){
+    if(!req.params.id2){
+      console.log(task)
+      res.json(task)
+    }
+    else{
+      res.json(task[req.params.id2])
+    }
+  }
+  })
+
+})
 router.get('/getalltasks/:datenum/:monthnum/:yearnum',requireLogin,(req,res)=>{
-    console.log(req.user._id);
-    Task.find({belongsTo:"5ec3c4b3221e042f32ace44f",datenum:req.params.datenum},function(err, tasks) {
+    Task.find({belongsTo:req.user._id,$or:[{repeat:"Everyday"},{datenum:req.params.datenum,datenum:req.params.datenum,datenum:req.params.datenum}]},function(err, tasks) {
       if(!err){
-        res.json(tasks);
+        res.json(tasks)
         }
         else
         console.log("err",err);
     })
+
 })
 router.post("/addtask",requireLogin,(req,res)=>{
   console.log("task=>",req.body.task);
@@ -100,17 +127,21 @@ goal.save().then((resp) => {
 })
 router.get("/taskcompleted/:id",requireLogin,(req,res)=>{
   console.log("req rec",req.params.id);
-  Task.findByIdAndUpdate(req.params.id,{completed:true} ,function (err, task) {
+  Task.findByIdAndUpdate(req.params.id,{completed:true,$push:{datesDone:new Date()}} ,function (err, task) {
     if(!err){
-      console.log("taskcompleted",req.params.id,task);
+      console.log("taskcompleted",req.params.id,task)
     }
   })
+  console.log(req.user.taskscompleted);
   User.findOneAndUpdate({_id:req.user._id},{
           taskscompleted:req.user.taskscompleted+1,
           points:req.user.points+1
-      },{new:true})
+      },function (err, task) {
+        if(!err){
+          console.log("taskcompleted",req.params.id,task)
+        }
+      })
 })
-
 router.get("/undotaskcompleted/:id",requireLogin,(req,res)=>{
   console.log("undo req rec",req.params.id);
   Task.findByIdAndUpdate(req.params.id,{completed:false} ,function (err, task) {

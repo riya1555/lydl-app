@@ -106,7 +106,6 @@ export default function EditTask(props){
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('sm');
   let edittaskcurrent=props.item
-    console.log(edittaskcurrent);
   const handleClose = () => {
     setOpen(false);
   };
@@ -119,11 +118,11 @@ export default function EditTask(props){
     console.log(edittaskcurrent);
   }
   const handleChange = (prop) => (event) => {
-    edittaskcurrent={ ...edittaskcurrent, [prop]: event.target.value };
-    console.log(edittaskcurrent);
-  };
+    edittaskcurrent={ ...edittaskcurrent, [prop]: event.target.value }
+    console.log(edittaskcurrent)
+  }
     return(<>
-      <EditIcon onClick={()=>setOpen(true)} style={props.style} />
+      <EditIcon onClick={()=>{setOpen(true)}} style={props.style} />
       <Dialog
           fullWidth={fullWidth}
           maxWidth={maxWidth}
@@ -222,7 +221,7 @@ export default function EditTask(props){
   </Select>
   </FormControl>
   </div>
-          </div>
+  </div>
   </DialogContent>
   <DialogActions>
     <Button onClick={handleClose} color="primary">

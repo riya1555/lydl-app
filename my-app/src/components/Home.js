@@ -31,14 +31,15 @@ function postData(){
 function changeDiaryEntry(event){
   setData({...data,diaryEntry:event.target.value})
 }
+const montharr=["Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","Nov","Dec"]
 if(userr.data.todolist)
 return (
   <main>
     <div class="homepage">
       <div class="left">
         <div class="calender">
-          <h1>25</h1>
-          <p>2020 | July</p>
+          <h1>{new Date().getDate()}</h1>
+          <p>{new Date().getFullYear()} | {montharr[new Date().getMonth()]}</p>
           </div>
         <div class="scrollspy">
           <ul>

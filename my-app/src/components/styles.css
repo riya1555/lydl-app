@@ -1,0 +1,25 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.mainc {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-around;
+}
+.mainc > div {
+  text-align: right;
+  flex-basis: 14%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: center;
+  height: 90px;
+  font-size: 30px;
+  color: aqua;
+}
+.mainc > div>p{
+  text-align:center;
+}

@@ -17,7 +17,7 @@ const Logoutt=()=>{
 return(
   <>
   <div class="level">
-    Lvl 46
+    Lvl {user.data.level}
   </div>
   <div class="nav-items">
     <span>Tasks</span>
@@ -29,6 +29,7 @@ return(
   </>)
 }
 function SimpleMenu() {
+  const user=useContext(MyContext)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (event) => {
     setAnchorEl(<div style={{position:'absolute',top:'20px',left:'500px'}}></div>);
@@ -37,11 +38,10 @@ function SimpleMenu() {
   const handleClose = (e,r) => {
     setAnchorEl(null);
     console.log(e,r);
-  };
-
+  }
   return (
     <div>
-      <Avatar alt="Remy Sharp" src={Ellipse1} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} />
+      <Avatar alt="Remy Sharp" src={user.data.pic} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} />
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}

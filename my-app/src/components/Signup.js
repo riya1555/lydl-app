@@ -8,13 +8,11 @@ const Signup=()=>{
     const [password,setPasword] = useState("")
     const [email,setEmail] = useState("")
     const [image,setImage] = useState("")
-    const [url,setUrl] = useState(undefined)
+    const [url,setUrl] = useState("")
     useEffect(()=>{
-        if(url){
-            uploadFields()
-        }
-    },[url])
-    const uploadPic = ()=>{
+      uploadFields()
+    }, [url])
+    const uploadPic = async ()=>{
         const data = new FormData()
         data.append("file",image)
         data.append("upload_preset","lifeapp")
@@ -32,13 +30,10 @@ const Signup=()=>{
         })
     }
     const uploadFields = ()=>{
-
 if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
             M.toast({html: "invalid email",classes:"#c62828 red darken-3"})
             return
         }
-
-
         fetch("/signup",{
             method:"post",
             headers:{
@@ -60,16 +55,17 @@ if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3
            else{
 
                M.toast({html:data.username,classes:"#43a047 green darken-1"})
-               history.push('/signin')
+               history.push('/')
            }
         }).catch(err=>{
             console.log(err)
         })
     }
-    const PostData = ()=>{
+    const PostData = async()=>{
         if(image){
-            uploadPic()
+            await uploadPic()
         }
+        else
             uploadFields()
         }
 
@@ -86,22 +82,14 @@ return  (
          <input
          type="text"
          placeholder="name"
-
-value={username}
+         value={username}
          onChange={(e)=>setName(e.target.value)}
-
-
          />
          <input
          type="text"
          placeholder="email"
-
-
          value={email}
          onChange={(e)=>setEmail(e.target.value)}
-
-
-
          />
          <input
          type="password"
@@ -114,16 +102,10 @@ value={username}
          <div className="file-field input-field">
          <div className="btn #64b5f6 blue darken-1">
              <span>Upload pic</span>
-
-
              <input type="file"
-
              onChange={(e)=>setImage(e.target.files[0])}
-
-
               />
            }
-
 
          </div>
          <div className="file-path-wrapper">
@@ -131,10 +113,7 @@ value={username}
          </div>
          </div>
          <button className="btn waves-effect waves-light #64b5f6 blue darken-1"
-
          onClick={()=>PostData()}
-
-
          >
              SignUP
          </button>

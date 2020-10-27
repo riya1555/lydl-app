@@ -43,7 +43,10 @@ const userSchema = new mongoose.Schema({
     type:Number,
     required:true,
     default:0
-  }
+  },
+  everydayTasks:[{
+    type:ObjectId,ref:"Task"
+  }]
 })
 userSchema.plugin(passportLocalMongoose)
 userSchema.plugin(findOrCreate)

@@ -61,8 +61,31 @@ const taskSchema = new mongoose.Schema({
     type:String,
     required:true,
     default:"Productive"
+  },
+  streak:{
+    type:Number,
+    default:0
+  },
+  taskScore:{
+    type:Number,
+    default:0
+  },
+  datesDone:[{
+    type:Date
+  }],
+  taskActiveFrom:{
+    type:Date
+  },
+  datesSkipped:[{
+    type:Date
+  }],
+  datesNotDone:{
+    type:Date
+  },
+  skipsperweek:{
+    type:Number,
+    default:1
   }
 })
-
 mongoose.model("Task",taskSchema)
 module.exports = mongoose.model("Task",taskSchema);
