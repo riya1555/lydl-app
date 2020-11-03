@@ -73,8 +73,8 @@ const taskSchema = new mongoose.Schema({
   datesDone:[{
     type:Date
   }],
-  taskActiveFrom:{
-    type:Date
+  active:{
+    type:Boolean
   },
   datesSkipped:[{
     type:Date

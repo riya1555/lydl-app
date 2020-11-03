@@ -8,7 +8,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 export default function TaskDetailsDialog(props) {
-console.log(props.item.datesDone);
   const streak=props.item.streak;
   const arr=[new Date(),new Date(2020,10,1),new Date(2020,10,4)]
   /*
@@ -30,14 +29,14 @@ console.log(props.item.datesDone);
     setOpentaskDialog(false)
   }
   return (<>
-    <span onDoubleClick={openTaskDetails}>{props.item.taskName.slice(0,30)}</span>
+    <span onDoubleClick={openTaskDetails}>{props.item.taskName.slice(0,30)}{(streak>=0)?(streak>6?streak+"❣️":streak):""}</span>
     <Dialog scroll="body" onClose={closeTaskDetails} aria-labelledby="simple-dialog-title" open={opentaskDialog} fullWidth={true} maxWidth={'md'}>
 <DialogTitle>{props.item.taskName} {(streak>3)?(streak>6?streak+"❣️":streak):""}</DialogTitle>
 <DialogContent>
   <DialogContentText>
     {props.item.taskDescription}
+      <Calender datesDone={props.item.datesDone} />
   </DialogContentText>
-  <Calender datesDone={props.item.datesDone} />
 </DialogContent>
 <DialogActions>
   <Button onClick={closeTaskDetails} color="primary">

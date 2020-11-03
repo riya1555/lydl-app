@@ -11,7 +11,14 @@ router.use(cors())
 // '/task/:id/:id2'
 //'/getalltasks/:datenum/:monthnum/:yearnum'
 //"/addtask"
-
+var schedule = require('node-schedule');
+var rule = new schedule.RecurrenceRule();
+rule.dayOfWeek = [new schedule.Range(0, 6)];
+rule.hour = 19;
+rule.minute = 5;
+var j = schedule.scheduleJob(rule, function(){
+  console.log('The answer to life, the universe, and everything!');
+});
 router.get('/task/:id',requireLogin,(req,res)=>{
     console.log(req.params.id);
     Task.findById(req.params.id, function (err, task) {
@@ -54,7 +61,7 @@ router.get('/getalltasks/:datenum/:monthnum/:yearnum',requireLogin,(req,res)=>{
         res.json(tasks)
         }
         else
-        console.log("err",err);
+        console.log("err",err)
     })
 
 })
@@ -126,8 +133,8 @@ goal.save().then((resp) => {
 })
 })
 router.get("/taskcompleted/:id",requireLogin,(req,res)=>{
-  console.log("req rec",req.params.id);
-  Task.findByIdAndUpdate(req.params.id,{completed:true,$push:{datesDone:new Date()}} ,function (err, task) {
+  let newdate=new Date()
+  Task.findByIdAndUpdate(req.params.id,{completed:true,$push:{datesDone:new Date(newdate.getFullYear(),newdate.getMonth(),newdate.getDate())}} ,function (err, task) {
     if(!err){
       console.log("taskcompleted",req.params.id,task)
     }
@@ -138,20 +145,25 @@ router.get("/taskcompleted/:id",requireLogin,(req,res)=>{
           points:req.user.points+1
       },function (err, task) {
         if(!err){
-          console.log("taskcompleted",req.params.id,task)
+          console.log("taskcompleted")
         }
       })
 })
 router.get("/undotaskcompleted/:id",requireLogin,(req,res)=>{
-  console.log("undo req rec",req.params.id);
-  Task.findByIdAndUpdate(req.params.id,{completed:false} ,function (err, task) {
+    let newdate=new Date()
+  console.log("undo",req.params.id)
+  Task.findByIdAndUpdate(req.params.id,{completed:false,$pull:{datesDone:new Date(newdate.getFullYear(),newdate.getMonth(),newdate.getDate())}} ,function (err, task) {
     if(!err){
-      console.log("taskcompleted",req.params.id,task);
+      console.log("taskcompleted",req.params.id,task)
     }
   })
   User.findOneAndUpdate({_id:req.user._id},{
           taskscompleted:req.user.taskscompleted-1,
           points:req.user.points-1
-      },{new:true})
+      },function (err, task) {
+        if(!err){
+          console.log("taskcompleted")
+        }
+      })
 })
 module.exports=router

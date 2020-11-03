@@ -17,7 +17,7 @@ export const fn = (order, down, originalIndex, curIndex, y) => index =>
 export function Draggablelist({userr}) {
   const user=useContext(MyContext)
   const [fetched,setfetched]=useState(false)
-  const [items,setItems]=useState(['',''])
+  const [items,setItems]=useState(user.data.todolist)
   const [viewProperty,setViewProperty]=useState([])
   const order = useRef(items.map((_, index) => index)) // Store indicies as a local ref, this represents the item order
   const [springs, setSprings] = useSprings(items.length, fn(order.current)) // Create springs, each corresponds to an item, controlling its transform, scale, etc.
@@ -44,8 +44,6 @@ export function Draggablelist({userr}) {
          else{
           setItems(data)
           setfetched(true)
-          order.current=items.map((_, index) => index)
-          setSprings(data,fn(order.current))
          }
       }).catch(err=>{
           console.log(err)

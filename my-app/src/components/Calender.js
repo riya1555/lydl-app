@@ -12,8 +12,7 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import IconButton from '@material-ui/core/IconButton';
 
 export default function Calender(props) {
-  const datesDone=props.datesDone;
-  console.log(datesDone);
+  const datesDone=props.datesDone
   const [month,setmonth]=useState(10);
   const [year,setyear]=useState(2020);
   let thismonthdates=[]
@@ -60,7 +59,6 @@ function Dates(props){
 const date=new Date(2020,props.month-1,1)
 const datemax=(new Date(2020,props.month,0)).getDate()
 const day =date.getDay()
-console.log(date)
 var items=[]
 for(var i=0,k=1;i<35;i++)
 {
