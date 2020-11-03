@@ -13,7 +13,7 @@ require('dotenv').config()
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:5000/auth/google/secrets"
+    callbackURL: "https://lydl-app.herokuapp.com//auth/google/secrets"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ googleId: profile.id ,username:profile.displayName, pic:profile.photos[0].value,name:profile.displayName }, function (err, user) {
@@ -69,7 +69,7 @@ router.get('/auth/google/secrets',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect("http://localhost:3000/");
+    res.redirect("http://lydl-app.herokuapp.com/");
   });
   router.get("/auth/logout",function(req, res) {
     req.logout();
