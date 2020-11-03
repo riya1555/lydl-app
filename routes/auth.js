@@ -13,7 +13,7 @@ require('dotenv').config()
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "https://lydl-app.herokuapp.com//auth/google/secrets"
+    callbackURL: "https://lydl-app.herokuapp.com/auth/google/secrets"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ googleId: profile.id ,username:profile.displayName, pic:profile.photos[0].value,name:profile.displayName }, function (err, user) {
