@@ -8,17 +8,30 @@ const Goal = mongoose.model("Goal")
 const requireLogin = require('../middleware/requirelogin')
 const cors = require('cors')
 router.use(cors())
-// '/task/:id/:id2'
-//'/getalltasks/:datenum/:monthnum/:yearnum'
-//"/addtask"
 var schedule = require('node-schedule');
 var rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [new schedule.Range(0, 6)];
-rule.hour = 19;
-rule.minute = 5;
+rule.hour = 0;
+rule.minute = 1;
 var j = schedule.scheduleJob(rule, function(){
-  console.log('The answer to life, the universe, and everything!');
-});
+  const date=new Date();
+  Task.updateMany({repeat:"Everyday",datesDone:{$in:[(new Date(date.getFullYear(),date.getMonth(),date.getDate()-1))]}},{completed:false,$inc:{streak:1}},function (err, docs) {
+    if (err){
+        console.log(err)
+    }
+    else{
+        console.log("Updated Docs : ",docs);
+    }
+})
+Task.updateMany({repeat:"Everyday",streak:{$gt:0},datesDone:{$nin:[(new Date(date.getFullYear(),date.getMonth(),date.getDate()-1))]}},{streak:0},function (err, docs) {
+  if (err){
+      console.log(err)
+  }
+  else{
+      console.log("Updated Docs : ",docs);
+  }
+})
+})
 router.get('/task/:id',requireLogin,(req,res)=>{
     console.log(req.params.id);
     Task.findById(req.params.id, function (err, task) {
@@ -53,17 +66,15 @@ router.post('/skip/task/:id',requireLogin,(req,res)=>{
     }
   }
   })
-
 })
 router.get('/getalltasks/:datenum/:monthnum/:yearnum',requireLogin,(req,res)=>{
-    Task.find({belongsTo:req.user._id,$or:[{repeat:"Everyday"},{datenum:req.params.datenum,datenum:req.params.datenum,datenum:req.params.datenum}]},function(err, tasks) {
+    Task.find({belongsTo:req.user._id,$or:[{repeat:"Everyday"},{datenum:req.params.datenum,monthnum:req.params.monthnum,yearnum:req.params.yearnum}]},function(err, tasks) {
       if(!err){
         res.json(tasks)
         }
         else
         console.log("err",err)
     })
-
 })
 router.post("/addtask",requireLogin,(req,res)=>{
   console.log("task=>",req.body.task);
@@ -86,7 +97,7 @@ task.save().then((resp) => {
 router.post("/updatetask",requireLogin,(req,res)=>{
   console.log("task=>",req.body.task);
 Task.findByIdAndUpdate(req.body.task._id,req.body.task,(err,task)=>{
-  console.log(task);
+  console.log(task)
 })
 })
 router.get("/deletetask/:id",requireLogin,(req,res)=>{
@@ -101,7 +112,7 @@ router.get("/deletetask/:id",requireLogin,(req,res)=>{
   })
 })
 router.get('/goal/:id/:id2',requireLogin,(req,res)=>{
-    console.log(req.params.id);
+    console.log(req.params.id)
     Goal.findById(req.params.id, function (err, goal) {
       if(!err){
       if(!req.params.id2){

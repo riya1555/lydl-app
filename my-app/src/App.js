@@ -11,10 +11,20 @@ import {About} from "././components/About.js"
 import GetStarted from "././components/GetStarted"
 import {reducer,initialState} from "./contexts/userReducer";
 import HomeorGetStarted from "././components/HomeOrGetStarted"
+import Weeklylist from '././components/Weeklylist';
+import _ from "lodash";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 export const MyContext=createContext()
 const Routing = ()=>{
+  const user= useContext(MyContext)
   return(
     <Switch>
+    <Route path ="/weekly">
+    {
+      (_.isEmpty(user.data))?<CircularProgress/>:<Weeklylist/>
+    }
+    </Route>
       <Route exact path="/" >
       <HomeorGetStarted />
       </Route>

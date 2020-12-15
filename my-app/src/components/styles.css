@@ -23,3 +23,66 @@
 .mainc > div>p{
   text-align:center;
 }
+@keyframes mymove {
+  100% {transform: rotate(180deg);}
+}
+.fa-arrow-down{
+  transform: rotate(0deg);
+  transition: transform .2s linear;
+}
+
+.fa-arrow-down.open{
+  transform: rotate(180deg) translate(0px,3px);
+  transition: transform .2s linear ;
+}
+.todolist1{
+  position: absolute;
+  max-width: 46vw;
+  width: 260px;
+  height: 353px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+  padding: 10px 30px
+}
+.todolist1 h3{
+font-size: 22px;
+line-height: 45px;
+color: #091E49;
+margin-left: 5px;
+display: inline;
+}
+.todolist1 ul{
+flex: 80%;
+font-weight: normal;
+font-size: 22px;
+line-height: 33px;
+}
+.inputtodo{
+  position: absolute;
+  bottom: 8px;
+  background-color: transparent;
+  bottom: 10px;
+  width: 80%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+.todolist1 input{
+  background-color: transparent;
+  border: none;
+  border-bottom: solid 2px;
+  border-color: #091E49;
+  width:80%;
+  font-size:22px;
+  padding-left:20px;
+  text-transform: uppercase;
+}
+.todolist1 input:focus{
+    outline: none;
+}
+.todolist1 img{
+  display: inline;
+  width: auto;
+}

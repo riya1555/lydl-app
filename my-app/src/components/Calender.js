@@ -13,8 +13,9 @@ import IconButton from '@material-ui/core/IconButton';
 
 export default function Calender(props) {
   const datesDone=props.datesDone
-  const [month,setmonth]=useState(10);
-  const [year,setyear]=useState(2020);
+  const montharr=["Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","Nov","Dec"]
+  const [month,setmonth]=useState((new Date().getMonth())+1);
+  const [year,setyear]=useState((new Date().getFullYear()));
   let thismonthdates=[]
   if(datesDone.length>0){
   thismonthdates=datesDone.filter((thisdate)=>(new Date(thisdate).getMonth()+1)===month&&(new Date(thisdate).getFullYear())===year
@@ -36,13 +37,13 @@ export default function Calender(props) {
     setmonth(month-1)
   }
   return (
-    <Card>
+    <Card style={{margin:"0 10%"}}>
       <CardContent>
       <div className="mainc">
       <IconButton onClick={decreasemonth}>
       <NavigateBeforeIcon color="secondary"/>
       </IconButton>
-      <p>{month}/{year}</p>
+      <p>{montharr[month-1]}/{year}</p>
       <IconButton onClick={increasemonth}>
       <NavigateNextIcon color="secondary"/>
       </IconButton>
@@ -72,6 +73,14 @@ else{
 }
 return(
   <>
+  <div>Sun</div>
+  <div>Mon</div>
+  <div>Tue</div>
+  <div>Wed</div>
+  <div>Thu</div>
+  <div>Fri</div>
+  <div>Sat</div>
+
   {items.map((item,i)=>{
     for(var j=0;j<props.thismonthdates.length;j++){
       if((new Date(props.thismonthdates[j])).getDate()===item){

@@ -11,8 +11,8 @@ const cors = require('cors')
 app.use(cors())
 app.use(session({
   secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
   cookie:{
     maxAge:100000000000
   }

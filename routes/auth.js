@@ -69,11 +69,11 @@ router.get('/auth/google/secrets',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect("http://lydl-app.herokuapp.com/");
+    res.redirect("https://lydl-app.herokuapp.com/");
   });
   router.get("/auth/logout",function(req, res) {
     req.logout();
-    res.redirect("http://localhost:3000/signin");
+    res.redirect("https://lydl-app.herokuapp.com/");
   }
   )
 module.exports=router

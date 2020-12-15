@@ -95,6 +95,7 @@ color: #C4C4C4;
   justify-content: space-around;
   align-items: center;
   color: black;
+  background: #faffff;
 }
 .todolist{
   position: absolute;
@@ -102,6 +103,7 @@ color: #C4C4C4;
   width: 481px;
   height: 593px;
   background: #F4FCFC;
+  background: #faffff;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -111,15 +113,15 @@ color: #C4C4C4;
 .todolist h3{
 font-size: 30px;
 line-height: 45px;
-letter-spacing: 0.04em;
 color: #091E49;
+margin-left: 5px;
+display: inline;
 }
 .todolist ul{
 flex: 80%;
 font-weight: normal;
 font-size: 22px;
 line-height: 33px;
-letter-spacing: 0.08em;
 }
 .inputtodo{
   position: absolute;
