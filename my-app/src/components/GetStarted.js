@@ -2,7 +2,9 @@ import React,{useState,useEffect,useCallback,useRef} from 'react';
 import {Link} from 'react-router-dom'
 import { useTransition, animated } from 'react-spring'
 import backg from './images/background.jpg'
-import M from 'materialize-css'
+import listimg from './images/430291.jpg'
+import Grid from '@material-ui/core/Grid';
+import { Parallax } from 'react-parallax';
 export const GetStarted=()=>{
   const ref = useRef([])
   const [items, set] = useState([])
@@ -27,12 +29,11 @@ export const GetStarted=()=>{
       ref.current.push(setTimeout(() => set(['To do list', 'And', 'More']), 8000))
   },[])
   useEffect(() => void reset(), [])
-useEffect(()=>{
-      var elems = document.querySelectorAll('.parallax');
-      var instances = M.Parallax.init(elems);
-  },[])
+
   return(
     < >
+    <Grid container  spacing={2}>
+    <Grid item xs={12}>
         <div className="nav-wrapper">
               <nav className="transparent z-depth-0">
        <a href="/" className="brand-logo1 brand-logo">Life App</a>
@@ -45,11 +46,11 @@ useEffect(()=>{
        </ul>
    </nav>
 </div>
-    <div className="parallax-container">
-    <div className="parallax">
-    <img src={backg} alt="vyvyv" />
-    </div>
-  </div>
+</Grid>
+<Grid item xs={12}>
+<div>
+<img src={listimg} style={{height:'800px'}}></img>
+</div>
   <div className="animcon">
   {transitions.map(({ item, props: { innerHeight, ...rest }, key }) => (
     <animated.div className="transitions-item" key={key} style={rest} onClick={reset}>
@@ -57,18 +58,8 @@ useEffect(()=>{
     </animated.div>
   ))}
   </div>
-  <div className="section white" style={{height:"300vh"}}>
-        <div className="row container">
-          <h2 className="header"></h2>
-
-          <p className="grey-text text-darken-3 lighten-3">Parallax is an effect where the background content or image in this case, is moved at a different speed than the foreground content while scrolling.</p>
-        </div>
-      </div>
-      <div className="parallax-container">
-      <div className="parallax">
-      <img src={backg} alt="vyvyv" />
-      </div>
-    </div>
+  </Grid>
+</Grid>
       < />
   )}
   export default GetStarted
