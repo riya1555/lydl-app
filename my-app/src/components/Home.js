@@ -6,6 +6,9 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
 import _ from 'lodash'
+import VerticalSlider from './Slider.js'
+import {useSpring, animated} from 'react-spring'
+
 const Home=()=>{
   const [data,setData] =useState({
     diaryEntry:'',
@@ -69,7 +72,8 @@ return (
       </div>
     </div>
     <div class="diarypage">
-      <div class="left">
+      <div class="right">
+      <VerticalSlider/>
         <h1>What’s Up ?</h1>
         <FormControl fullWidth >
       <Input
@@ -82,7 +86,15 @@ return (
 </FormControl>
         <Button variant="contained" onClick={postData}>Post</Button>
       </div>
-      <div class="right" style={{backgroundImage:_.isEmpty(quote)?"":"url("+quote.contents.quotes[0].background+")"}}>
+
+    </div>
+  </main>
+)
+else
+return <>LOad</>
+}
+export default Home
+/*      <div class="left" style={{backgroundImage:_.isEmpty(quote)?"":"url("+quote.contents.quotes[0].background+")"}}>
         <div class="calender">
           <p>"{_.isEmpty(quote)?"":quote.contents.quotes[0].quote}"</p>
           <p style={{fontSize:"24px"}}>{_.isEmpty(quote)?"":"- "+quote.contents.quotes[0].author}</p>
@@ -96,10 +108,4 @@ return (
           </ul>
         </div>
     </div>
-    </div>
-  </main>
-)
-else
-return <>LOad</>
-}
-export default Home
+    */

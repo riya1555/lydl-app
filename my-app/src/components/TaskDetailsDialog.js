@@ -29,9 +29,9 @@ export default function TaskDetailsDialog(props) {
     setOpentaskDialog(false)
   }
   return (<>
-    <span onDoubleClick={openTaskDetails}>{props.item.taskName.slice(0,30)}{(streak>=0)?(streak>6?streak+"❣️":streak):""}</span>
-    <Dialog scroll="body" onClose={closeTaskDetails} aria-labelledby="simple-dialog-title" open={opentaskDialog} fullWidth={true} maxWidth={'md'}>
-<DialogTitle>{props.item.taskName} {(streak>3)?(streak>6?streak+"❣️":streak):""}</DialogTitle>
+    <span onDoubleClick={openTaskDetails}>{props.item.taskName.slice(0,30)}</span><span style={{float:"right"}}>{(streak>=0)?(streak>6?streak+"❣️":streak):""}</span>
+    <Dialog  onClose={closeTaskDetails} aria-labelledby="simple-dialog-title" open={opentaskDialog} fullWidth={true} maxWidth={'md'}>
+<DialogTitle><span style={{    textTransform: "uppercase",letterSpacing: "2px"}}>{props.item.taskName} </span><span style={{float:"right"}}>{(streak>3)?(streak>6?streak+"❣️":streak):""}</span></DialogTitle>
 <DialogContent>
   <DialogContentText>
     {props.item.taskDescription}

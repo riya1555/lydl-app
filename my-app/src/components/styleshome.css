@@ -44,7 +44,7 @@ justify-content: center;
 flex-grow: 1;
 }
 .homepage .left{
-   background-image: url(images/Rectangle12.png);
+  position: fixed;
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
@@ -155,7 +155,16 @@ line-height: 33px;
   width: 100vw;
 }
 .diarypage .right{
-  background-image: url(images/Rectangle12.png);
+  height: 100vh;
+  width: 50vw;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.diarypage .left{
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
@@ -167,31 +176,23 @@ line-height: 33px;
   align-items: center;
   color: white;
 }
-.diarypage .left{
-  height: 100vh;
-  width: 50vw;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-}
-.diarypage .left h1{
+.diarypage .right h1{
 font-weight: 600;
 font-size: 39px;
 line-height: 58px;
 color: #08D9D6;
 }
-.diarypage .left .textarea{
+.diarypage .right .textarea{
+  align-self: center;
   border-bottom:  1px solid black;
   color: #08D9D6;
   width: 80%;
   min-height: 32px;
   font-size: 32px;
   max-height: 90vh;
+  overflow: scroll;
 }
-.diarypage .left .textarea:focus{
+.diarypage .right .textarea:focus{
   outline: none;
 }
 /* //select calender page*/

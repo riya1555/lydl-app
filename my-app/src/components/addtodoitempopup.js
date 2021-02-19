@@ -1,4 +1,4 @@
-import React,{useContext,useState} from 'react';
+import React,{useContext,useState,useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import {Paper,TextField } from '@material-ui/core';
@@ -29,6 +29,14 @@ import FilledInput from '@material-ui/core/FilledInput';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import DateFnsUtils from '@date-io/date-fns';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import {
+  KeyboardTimePicker, MuiPickersUtilsProvider
+} from '@material-ui/pickers';
+
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -107,35 +115,76 @@ const [open, setOpen] = React.useState(false);
 const [fullWidth, setFullWidth] = React.useState(true);
 const [maxWidth, setMaxWidth] = React.useState('sm');
 const [fetched,setfetched]=props.prop
+const user=useContext(MyContext)
+const [repeat,setRepeat]=useState(false)
+let date=props.date?props.date:new Date()
+const [task,setTask]=useState({
+  taskName:"",
+  date:date,
+  belongsTo:user.data._id,
+  datenum:date.getDate(),
+  monthnum:date.getMonth(),
+  yearnum:date.getFullYear(),
+  fromTime:new Date(),
+  toTime:(new Date()).setHours(date.getHours()+1),
+  time:new Date(),
+  taskType:'productive',
+  repeat:'Never',
+  repeatdays:[],
+  taskTier:Number,
+  taskDescription:String
+})
+
 const handleClickOpen = () => {
   setOpen(true);
 };
-
+const [daysRepeat, setDaysRepeat] = React.useState({
+  Everyday:false,
+  Sun:false,
+  Mon:false,
+  Tue:false,
+  Wed:false,
+  Thu:false,
+  Fri:false,
+  Sat:false,
+})
 const handleClose = () => {
   setOpen(false);
 };
-
+useEffect(()=>{
+  let arr=new Array()
+if(daysRepeat.Sun)
+arr.push(0);
+if(daysRepeat.Mon)
+arr.push(1);
+if(daysRepeat.Tue)
+arr.push(2);
+if(daysRepeat.Wed)
+arr.push(3);
+if(daysRepeat.Thu)
+arr.push(4);
+if(daysRepeat.Fri)
+arr.push(5);
+if(daysRepeat.Sat)
+arr.push(6);
+if(!repeat){
+  arr=[]
+}
+setTask((task)=>{
+    return {...task,repeatdays:arr}
+  })
+}, [daysRepeat],[repeat])
 const handleChange = (prop) => (event) => {
   setTask({ ...task, [prop]: event.target.value });
   console.log(task);
 };
-
-  const user=useContext(MyContext)
-  let date=new Date()
-  const [task,setTask]=useState({
-    taskName:"",
-    date:date,
-    belongsTo:user.data._id,
-    datenum:date.getDate(),
-    monthnum:date.getMonth(),
-    yearnum:date.getYear(),
-    fromTime:'',
-    toTime:'',
-    taskType:'productive',
-    repeat:'none',
-    taskTier:0,
-    taskDescription:''
-  })
+const handleChange2 = (prop) => (event) => {
+  setTask({ ...task, [prop]:event });
+  console.log(task);
+};
+const handleChange3=(event)=>{
+  setDaysRepeat({...daysRepeat, [event.target.name]:event.target.checked})
+}
   const PostDataCheck=(key)=>{
     if(key=="Enter"){
     PostData()
@@ -204,42 +253,59 @@ const handleChange = (prop) => (event) => {
                 </FormControl>
                   <FormControl className={clsx(classes.margin, classes.withoutLabel, classes.textField)}>
                 <form className={classes.container} noValidate>
-                  <TextField
-                    id="time"
-                    label='from'
-                    type="time"
-                    value={task.fromTime}
-                    onChange={handleChange('fromTime')}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{
-                      step: 300, // 5 min
-                    }}
-                  />
-                </form>
-                </FormControl>
-                <FormControl className={clsx(classes.margin, classes.withoutLabel, classes.textField)}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                < KeyboardTimePicker
+              margin = "normal"
+              id = "time-picker"
+              label = "Start Time"
+              value = {
+                task.fromTime
+              }
+              onChange = {
+                handleChange2('fromTime')
+              }
+              KeyboardButtonProps = {
+                {
+                  'aria-label': 'change time',
+                }
+              }
+              />
+            <
+              /MuiPickersUtilsProvider>
+              </form>
+              </FormControl>
+              <FormControl className={clsx(classes.margin, classes.withoutLabel, classes.textField)}>
                 <form className={classes.container} noValidate>
-                  <TextField
-                    id="time"
-                    label='to'
-                    type="time"
-                    value={task.toTime}
-                    onChange={handleChange('toTime')}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{
-                      step: 300, // 5 min
-                    }}
-                  />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardTimePicker
+                margin = "normal"
+                id = "time-picker"
+                label = "End Time"
+                value = {
+                  task.toTime
+                }
+                onChange = {
+                  handleChange2('toTime')
+                }
+                KeyboardButtonProps = {
+                  {
+                    'aria-label': 'change time',
+                  }
+                }
+                />
+                </MuiPickersUtilsProvider>
                   </form>
                 </FormControl>
   <div>
+  <FormControlLabel label="Repeat Task"
+  control={<Switch
+     checked={repeat}
+     onChange={(event)=>{setRepeat(event.target.checked)}}
+     name="Repeat"
+     inputProps={{ 'aria-label': 'secondary checkbox' }}
+   />}/>
   <FormControl className={clsx(classes.margin, classes.withoutLabel, classes.textField)}>
+{/*
 <InputLabel id="demo-simple-select-helper-label">Repeat</InputLabel>
 <Select
 labelId="demo-simple-select-helper-label"
@@ -257,7 +323,59 @@ onChange={handleChange('repeat')}
 <MenuItem value='Friday'>Friday</MenuItem>
 <MenuItem value='Saturday'>Saturday</MenuItem>
 <MenuItem value='Sunday'>Sunday</MenuItem>
-</Select>
+</Select>*/}
+{!repeat?"":<><FormLabel component="legend">Repeat </FormLabel>
+<FormGroup>
+<FormControlLabel label="Sunday"
+control={<Switch
+   checked={daysRepeat.Sun}
+   onChange={handleChange3}
+   name="Sun"
+   inputProps={{ 'aria-label': 'secondary checkbox' }}
+ />}/>
+ <FormControlLabel label="Monday"
+ control={<Switch
+    checked={daysRepeat.Mon}
+    onChange={handleChange3}
+    name="Mon"
+    inputProps={{ 'aria-label': 'secondary checkbox' }}
+  />}/>
+  <FormControlLabel label="Tueday"
+  control={<Switch
+     checked={daysRepeat.Tue}
+     onChange={handleChange3}
+     name="Tue"
+     inputProps={{ 'aria-label': 'secondary checkbox' }}
+   />}/>
+   <FormControlLabel label="Wednesday"
+   control={<Switch
+      checked={daysRepeat.Wed}
+      onChange={handleChange3}
+      name="Wed"
+      inputProps={{ 'aria-label': 'secondary checkbox' }}
+    />}/>
+    <FormControlLabel label="Thursday"
+    control={<Switch
+       checked={daysRepeat.Thu}
+       onChange={handleChange3}
+       name="Thu"
+       inputProps={{ 'aria-label': 'secondary checkbox' }}
+     />}/>
+     <FormControlLabel label="Friday"
+     control={<Switch
+        checked={daysRepeat.Fri}
+        onChange={handleChange3}
+        name="Fri"
+        inputProps={{ 'aria-label': 'secondary checkbox' }}
+      />}/>
+      <FormControlLabel label="Saturday"
+      control={<Switch
+         checked={daysRepeat.Sat}
+         onChange={handleChange3}
+         name="Sat"
+         inputProps={{ 'aria-label': 'secondary checkbox' }}
+       />}/>
+       </FormGroup></>}
 </FormControl>
 <FormControl className={clsx(classes.margin, classes.withoutLabel, classes.textField)}>
 <InputLabel id="demo-simple-select-helper-label">Time</InputLabel>

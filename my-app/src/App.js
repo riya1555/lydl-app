@@ -22,7 +22,7 @@ const Routing = ()=>{
     <Switch>
     <Route path ="/weekly">
     {
-      (_.isEmpty(user.data))?<CircularProgress/>:<Weeklylist/>
+      (_.isEmpty(user.data))?<HomeorGetStarted/>:<Weeklylist/>
     }
     </Route>
       <Route exact path="/" >
@@ -31,10 +31,10 @@ const Routing = ()=>{
       <Route exact path="/signin">
         <Signin />
       </Route>
-      <Route exact path="/signup">
-      <Navbar/>
-        <Signup />
+      <Route path="/signup/:email" component={Signup}>
         </Route>
+        <Route path="/signup" component={Signup}>
+          </Route>
         <Route exact path="/about">
         <Navbar/>
           <About />
@@ -62,7 +62,7 @@ useEffect(() => {
         });
 }, []);
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} >
     <MyContext.Provider value={{data,dispatch}}>
     <BrowserRouter>
 <Routing/>

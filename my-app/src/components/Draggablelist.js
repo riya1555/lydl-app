@@ -10,6 +10,7 @@ import SpringModal from './addtodoitempopup.js'
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditTask from './editdialog.js'
 import TaskDetailsDialog from './TaskDetailsDialog.js'
+import SkipNextIcon from '@material-ui/icons/SkipNextRounded';
 export const fn = (order, down, originalIndex, curIndex, y) => index =>
   down && index === originalIndex
     ? { y: curIndex * 30 + y, scale: 1.1, zIndex: '1', shadow: 1, immediate: n => n === 'y' || n === 'zIndex' }
@@ -17,7 +18,7 @@ export const fn = (order, down, originalIndex, curIndex, y) => index =>
 export function Draggablelist({userr}) {
   const user=useContext(MyContext)
   const [fetched,setfetched]=useState(false)
-  const [items,setItems]=useState(user.data.todolist)
+  const [items,setItems]=useState(new Array(30).fill(null))
   const [viewProperty,setViewProperty]=useState([])
   const order = useRef(items.map((_, index) => index)) // Store indicies as a local ref, this represents the item order
   const [springs, setSprings] = useSprings(items.length, fn(order.current)) // Create springs, each corresponds to an item, controlling its transform, scale, etc.
@@ -31,7 +32,7 @@ export function Draggablelist({userr}) {
     }
   })
   useEffect(()=>{
-      fetch("/getalltasks/"+new Date().getDate()+"/"+new Date().getMonth()+"/"+new Date().getYear(),{
+      fetch("/getalltasks/"+new Date().getDate()+"/"+new Date().getMonth()+"/"+new Date().getFullYear(),{
           method:"GET",
           headers:{
               "Content-Type":"application/json"
@@ -42,6 +43,7 @@ export function Draggablelist({userr}) {
             console.log(data)
          }
          else{
+           console.log(data);
           setItems(data)
           setfetched(true)
          }
@@ -97,7 +99,32 @@ setViewProperty((viewProperty)=>{
   return [...temp]
 })
 }
-
+let newdate=new Date()
+function skipTask(i){
+  var v=window.confirm("Are you sure you want to skip this task?")
+  if(v){
+  //  event.target.checked=!event.target.checked
+    setItems((items)=>{
+    const temp=[...items]
+    temp[i].skipped=!temp[i].skipped
+//    event.target.checked=!temp[i].completed
+    if(temp[i].skipped){
+      const idt=temp[i]._id
+      fetch("/skip/task/"+idt,{
+        method:"post",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          date:new Date(newdate.getFullYear(),newdate.getMonth(),newdate.getDate())
+        })
+      }).then(console.log("done")).catch(err=>console.log(err))
+    }
+    return temp
+    })
+    console.log(items)
+  }
+}
 if(fetched)
   return (
     <div >
@@ -117,14 +144,16 @@ if(fetched)
           onMouseLeave={()=>handleMouseLeave(i)}
         >
         <Checkbox
-          checked={items[i].completed}
+          checked={items[i].completed||items[i].skipped}
           onChange={(event)=> handleCheck(event,i)}
           name={items[i].taskName}
           color="primary"
+          disabled={items[i].skipped}
         />
         <TaskDetailsDialog item={items[i]}/>
         <DeleteIcon onClick={(e)=>{deleteTask(e,i)}} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>
         <EditTask onClick={()=>handleMouseLeave(i)} item={items[i]} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>
+        {items[i].skips>0&&(!items[i].skipped)&&(!items[i].completed)?<SkipNextIcon onClick={()=>skipTask(i)} item={items[i]} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>:""}
         </animated.div>
       )})}
     </ul>

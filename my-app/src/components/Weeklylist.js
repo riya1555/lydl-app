@@ -11,6 +11,9 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {MyContext} from '../App'
 import _ from "lodash";
+import SpringModal from './addtodoitempopup.js'
+import Navbar from './Navbar.js'
+import TaskDetailsDialog from './TaskDetailsDialog.js'
 const useStyles = makeStyles((theme) => ({
   root: {
   },
@@ -31,11 +34,14 @@ export default function Weeklylist() {
   const [date1,setDate1]=useState(new Date());
   const daynum= date1.getDay();
   return (
+    <>
+    <Navbar style={{position:"inherit"}}/>
     <Container className="weeklylistcontainer">
-    <Button variant="contained" color="primary" onClick={()=>(setDate1(new Date(date1.setDate(date1.getDate()-7))))}>
+
+    <Button style={{position:"absolute",left:"5px",top:"49%"}} variant="contained" color="primary" onClick={()=>(setDate1(new Date(date1.setDate(date1.getDate()-7))))}>
   Prev
 </Button>
-<Button variant="contained" color="primary" onClick={()=>(setDate1(new Date(date1.setDate(date1.getDate()+7))))}>
+<Button style={{position:"absolute",right:"5px",top:"49%"}} variant="contained" color="primary" onClick={()=>(setDate1(new Date(date1.setDate(date1.getDate()+7))))}>
   Next
 </Button>
     <Grid container spacing={3}>
@@ -64,6 +70,7 @@ export default function Weeklylist() {
   </Grid>
 </Grid>
     </Container>
+    </>
   );
 }
 export const fn = (order, down, originalIndex, curIndex, y) => index =>
@@ -71,8 +78,7 @@ export const fn = (order, down, originalIndex, curIndex, y) => index =>
     ? { y: curIndex * 30 + y, scale: 1.1, zIndex: '1', shadow: 1, immediate: n => n === 'y' || n === 'zIndex' }
     : { y: order.indexOf(index) * 30, scale: 1, zIndex: '0', shadow: 0, immediate: false }
 function Draggablelist2(date) {
-  console.log(date.date);
-    const user=useContext(MyContext)
+  const user=useContext(MyContext)
   const [fetched,setfetched]=useState(false)
   const [items,setItems]=useState(user.data.todolist)
   const [viewProperty,setViewProperty]=useState([])
@@ -88,8 +94,9 @@ function Draggablelist2(date) {
     }
   })
   useEffect(()=>{
+    console.log(date.date)
     setfetched(false)
-      fetch("/getalltasks/"+date.date.getDate()+"/"+(date.date.getMonth())+"/"+date.date.getYear(),{
+      fetch("/getalltasks/"+date.date.getDate()+"/"+(date.date.getMonth())+"/"+date.date.getFullYear(),{
           method:"GET",
           headers:{
               "Content-Type":"application/json"
@@ -133,10 +140,7 @@ if(fetched)
   return (
     <div class="todolist1">
     <span>
-    <svg width="8" height="34" viewBox="0 0 8 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 0L8 8V34H0V0Z" fill="#08D9D6"/>
-    </svg>
-      <h3>{date.date.getDate()+" "+montharr[date.date.getMonth()]}<span style={{float:"right"}}>{daysarr[date.date.getDay()]}</span></h3></span>
+      <h3 style={{color:"grey"}}>{date.date.getDate()+" "+montharr[date.date.getMonth()]}<span style={{float:"right",fontSize:"12px",color:"grey"}}>{daysarr[date.date.getDay()]}</span></h3></span>
       <div class="tasks">
     <div >
     <ul className="content" style={{height:'80%',width:'100%',overflow:'scroll'}}>
@@ -154,12 +158,16 @@ if(fetched)
           onMouseOver={()=>handleMouseOver(i)}
           onMouseLeave={()=>handleMouseLeave(i)}
         >
-        {items[i].taskName}
+        <TaskDetailsDialog item={items[i]}/>
         </animated.div>
       )})}
     </ul>
 </div>
 </div>
+{(date.date)>=(new Date().setHours(0,0,0,0))
+  ? <SpringModal prop={[fetched,setfetched]} date={date.date}/>
+  : ""
+}
         </div>
   )
   else

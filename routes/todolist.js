@@ -31,6 +31,30 @@ Task.updateMany({repeat:"Everyday",streak:{$gt:0},datesDone:{$nin:[(new Date(dat
       console.log("Updated Docs : ",docs);
   }
 })
+Task.updateMany({repeat:"Everyday",skipped:true,datesSkipped:{$in:[(new Date(date.getFullYear(),date.getMonth(),date.getDate()-1))]}},{skipped:false},function (err, docs) {
+  if (err){
+      console.log(err)
+  }
+  else{
+      console.log("Updated Docs : ",docs);
+  }
+})
+
+})
+var rule1 = new schedule.RecurrenceRule();
+rule1.dayOfWeek = 0;
+rule1.hour = 0;
+rule1.minute = 1;
+schedule.scheduleJob(rule1, function(){
+  const date=new Date();
+  Task.updateMany({repeat:"Everyday"},{$inc:{skips:2}},function (err, docs) {
+    if (err){
+        console.log(err)
+    }
+    else{
+        console.log("Updated Docs : ",docs);
+    }
+})
 })
 router.get('/task/:id',requireLogin,(req,res)=>{
     console.log(req.params.id);
@@ -51,24 +75,50 @@ router.get('/task/:id',requireLogin,(req,res)=>{
     })
 })
 router.post('/skip/task/:id',requireLogin,(req,res)=>{
-  Task.findByIdAndUpdate(req.params.id,{$push:{datesSkipped:req.body.date}}, function (err, task) {
-    console.log(task)
-    if(err){
-      console.log(err)
+  Task.findById(req.params.id,function(err,task){
+    if(task.repeat=="Everyday"&&task.skips>0&&task.skipped==false){
+      Task.findByIdAndUpdate(req.params.id,{$push:{datesSkipped:req.body.date},$inc:{skips:-1},skipped:true}, function (err, task) {
+        console.log(task)
+        if(err){
+          console.log(err)
+        }
+        if(!err){
+        if(!req.params.id2){
+          console.log(task)
+          res.json(task)
+        }
+        else{
+          res.json(task[req.params.id2])
+        }
+      }
+      })
     }
-    if(!err){
-    if(!req.params.id2){
-      console.log(task)
-      res.json(task)
+    else if(task.repeat!="Everyday"){
+      Task.findByIdAndUpdate(req.params.id,{$push:{datesSkipped:req.body.date},$inc:{skips:-1},skipped:true}, function (err, task) {
+        console.log(task)
+        if(err){
+          console.log(err)
+        }
+        if(!err){
+        if(!req.params.id2){
+          console.log(task)
+          res.json(task)
+        }
+        else{
+          res.json(task[req.params.id2])
+        }
+      }
+      })
     }
-    else{
-      res.json(task[req.params.id2])
+    else {
+      res.json({error:"Task cannot be skipped"})
     }
-  }
   })
 })
 router.get('/getalltasks/:datenum/:monthnum/:yearnum',requireLogin,(req,res)=>{
-    Task.find({belongsTo:req.user._id,$or:[{repeat:"Everyday"},{datenum:req.params.datenum,monthnum:req.params.monthnum,yearnum:req.params.yearnum}]},function(err, tasks) {
+  const date=new Date(req.params.yearnum,req.params.monthnum,req.params.datenum)
+  console.log(date.getDay());
+    Task.find({belongsTo:req.user._id,$or:[{repeatdays:{$in:[date.getDay()]}},{datenum:req.params.datenum,monthnum:req.params.monthnum,yearnum:req.params.yearnum}]},function(err, tasks) {
       if(!err){
         res.json(tasks)
         }

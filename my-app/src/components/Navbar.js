@@ -5,14 +5,14 @@ import {MyContext} from '../App.js'
 import App from '../App.js'
 import Home from './Home'
 import M from 'materialize-css'
-import star from "./images/Star1.png"
+import star from "./images/logo.png"
 import polygon1 from "./images/Polygon1.svg"
 import Ellipse1 from "./images/Ellipse1.png"
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Avatar from '@material-ui/core/Avatar'
-
+import { useHistory } from "react-router-dom";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
@@ -23,18 +23,19 @@ const Logoutt=()=>{
   const user=useContext(MyContext)
 return(
   <>
-  <div class="level">
+  <div class="level" style={{background:"white"}}>
     Lvl {user.data.level}
   </div>
   <div class="nav-items">
-<SimpleMenu2/>
+<SimpleMenu2 style={{background:"white"}}/>
   </div>
   <div class="profile-pic">
-    <SimpleMenu/>
+    <SimpleMenu style={{background:"white"}}/>
   </div>
   </>)
 }
 const SimpleMenu2=()=>{
+  const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -95,11 +96,9 @@ const SimpleMenu2=()=>{
            >
              <Paper>
                <ClickAwayListener onClickAway={handleClose}>
-                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                 <MenuList style={{background:"white",zIndex:"999"}} autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                    <MenuItem onClick={handleClose}>Goals</MenuItem>
-                   <MenuItem onClick={handleClose}>      <Link href="/weekly" >
-        Link
-      </Link></MenuItem>
+                   <MenuItem onClick={handleClose} onClick={()=>{history.push("/weekly")}}>This Week</MenuItem>
                    <MenuItem onClick={handleClose}>Diary</MenuItem>
                  </MenuList>
                </ClickAwayListener>
@@ -155,10 +154,11 @@ else{
 }
 }
 const Navbar=()=>{
+  const history = useHistory();
 return(
- <nav>
+ <nav style={{position:"fixed"}}>
    <div class="nav-logo">
-     <img src={star} alt="g"/>
+     <img style={{width:"60px"}} src={star} onClick={()=>{history.push("/")}} alt="g"/>
    </div>
    <Logout/>
  </nav>

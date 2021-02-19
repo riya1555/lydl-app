@@ -10,13 +10,13 @@ const taskSchema = new mongoose.Schema({
       type:String
   },
   fromTime:{
-    type:String
+    type:Date
   },
   toTime:{
-    type:String
+    type:Date
   },
   timeDuration:{
-    type:Number
+    type:Date
   },
   taskTier:{
     type:Number
@@ -26,6 +26,10 @@ const taskSchema = new mongoose.Schema({
     required:true,
     default:"Never"
   },
+  repeatdays:[{
+    type:Number
+  }],
+  //Everyday, Yes, Never
   childOf:{
     type:ObjectId,
     ref:"Task"
@@ -53,6 +57,11 @@ const taskSchema = new mongoose.Schema({
     type:Number
   },
   completed:{
+    type:Boolean,
+    required:true,
+    default:false
+  },
+  skipped:{
     type:Boolean,
     required:true,
     default:false
@@ -85,6 +94,10 @@ const taskSchema = new mongoose.Schema({
   skipsperweek:{
     type:Number,
     default:1
+  },
+  skips:{
+    type:Number,
+    default:2
   }
 })
 mongoose.model("Task",taskSchema)
