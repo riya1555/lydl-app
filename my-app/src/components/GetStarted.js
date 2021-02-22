@@ -67,10 +67,14 @@ function getstarted(){
         </Toolbar>
       </AppBar>
     </div>
-    <Grid container justify="center"   alignItems="center">
-    <Grid item xs={9}>
-<div ref={ref1} style={{background: `url(${listimg})`,height:'90vh',backgroundRepeat:"no-repeat",backgroundSize:"contain"}}>
-  <div  className="animcon" style={{position:'relative',left:"24.3%", top:wid }}>
+    <Grid container justify="center" alignItems="center">
+    <Grid item xl={9} lg={9} md={8} sm={12} xs={12}>
+    {
+      // backgroundPosition: "center top"
+      console.log(window.innerWidth,window.innerHeight)
+    }
+<div ref={ref1} style={{background: `url(${listimg})`,height:(.72*window.innerWidth)<window.innerHeight?'72vw':'100vh',backgroundRepeat:"no-repeat",backgroundSize:"contain",}}>
+  <div  className="animcon" style={{position:'relative',left:ref1.current?24.5/100*ref1.current.getBoundingClientRect().width:0,width:"74%", top:wid }}>
   {transitions.map(({ item, props: { innerHeight, ...rest }, key }) => (
     <animated.div className="transitions-item" key={key} style={rest} onClick={reset}>
       <animated.div style={{ overflow: 'hidden', height: innerHeight }}>{item}</animated.div>
@@ -78,9 +82,8 @@ function getstarted(){
   ))}
   </div>
   </div>
-
   </Grid>
-  <Grid item xs={3}>
+  <Grid item xl={3} lg={3} md={4} sm={12} xs={12}>
 <Grid container direction="row" justify="center" alignItems="center" spacing={2} >
 <Grid item xs={10}>
 <TextField value={email}
@@ -106,6 +109,6 @@ onChange={(e)=>setEmail(e.target.value)}
 </Grid>
 </Grid>
 </Grid>
-      < />
+      </>
   )}
   export default GetStarted

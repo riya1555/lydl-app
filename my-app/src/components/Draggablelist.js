@@ -3,7 +3,7 @@ import {MyContext} from '../App'
 import clamp from 'lodash-es/clamp'
 import swap from 'lodash-move'
 import { useGesture } from 'react-use-gesture'
-import { useSprings, animated, interpolate } from 'react-spring'
+import { useSprings,useSpring, animated, interpolate } from 'react-spring'
 import { Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SpringModal from './addtodoitempopup.js'
@@ -31,6 +31,12 @@ export function Draggablelist({userr}) {
       order.current = newOrder
     }
   })
+const [flipped, set] = useState(false)
+const { transform, opacity } = useSpring({
+  opacity: flipped ? 1 : 0,
+  transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
+  config: { mass: 5, tension: 500, friction: 80 }
+})
   useEffect(()=>{
       fetch("/getalltasks/"+new Date().getDate()+"/"+new Date().getMonth()+"/"+new Date().getFullYear(),{
           method:"GET",
@@ -52,6 +58,7 @@ export function Draggablelist({userr}) {
       })
   },[fetched])
 function handleCheck(event,i){
+
     event.target.checked=!event.target.checked
     setItems((items)=>{
     const temp=[...items]
@@ -64,7 +71,10 @@ function handleCheck(event,i){
         headers:{
             "Content-Type":"application/json"
         },
-      }).then(console.log("done")).catch(err=>console.log(err))
+      }).then((j)=>{
+        console.log(flipped);
+        set(state => !state)
+      }).catch(err=>console.log(err))
     }
     else if(!temp[i].completed){
       const idt=temp[i]._id
@@ -73,7 +83,10 @@ function handleCheck(event,i){
         headers:{
             "Content-Type":"application/json"
         },
-      }).then(console.log("done")).catch(err=>console.log(err))
+      }).then(()=>{
+        console.log(flipped);
+        set(state => !state)
+      }).catch(err=>console.log(err))
     }
     return temp
     })
