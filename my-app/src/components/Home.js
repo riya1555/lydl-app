@@ -8,7 +8,7 @@ import Input from '@material-ui/core/Input'
 import _ from 'lodash'
 import VerticalSlider from './Slider.js'
 import {useSpring, animated} from 'react-spring'
-
+import Hidden from '@material-ui/core/Hidden';
 const Home=()=>{
   const [data,setData] =useState({
     diaryEntry:'',
@@ -43,8 +43,9 @@ const montharr=["Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","N
 if(userr.data.todolist)
 return (
   <main>
-    <div class="homepage">
-      <div class="left" style={{backgroundImage:_.isEmpty(quote)?"":"url("+quote.contents.quotes[0].background+")"}}>
+    <div class="homepage" >
+    <Hidden smDown>
+      <div class="left " style={{backgroundImage:_.isEmpty(quote)?"":"url("+quote.contents.quotes[0].background+")"}}>
         <div class="calender">
           <h1>{new Date().getDate()}</h1>
           <p>{new Date().getFullYear()} | {montharr[new Date().getMonth()]}</p>
@@ -58,6 +59,7 @@ return (
           </ul>
         </div>
     </div>
+    </Hidden>
       <div class="right">
         <div class="todolist">
         <span>
