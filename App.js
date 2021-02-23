@@ -8,6 +8,7 @@ const passport=require('passport')
 const passportLocalMongoose=require('passport-local-mongoose')
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cors = require('cors')
+
 app.use(cors())
 app.use(session({
   secret: 'keyboard cat',

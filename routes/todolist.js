@@ -24,12 +24,7 @@ var j = schedule.scheduleJob(rule, function(){
         console.log("Updated Docs : ",docs);
     }
 })
-var rulex=new schedule.RecurrenceRule();
-rulex.minute=51;
-rulex.tz= 'Asia/Kolkata';
-const job = schedule.scheduleJob(rulex, function(){
-  console.log('The answer to life, the universe, and everything!');
-})
+
 Task.updateMany({repeat:"Everyday",streak:{$gt:0},datesDone:{$nin:[(new Date(date.getFullYear(),date.getMonth(),date.getDate()-1))]}},{streak:0},function (err, docs) {
   if (err){
       console.log(err)
@@ -47,6 +42,12 @@ Task.updateMany({repeat:"Everyday",skipped:true,datesSkipped:{$in:[(new Date(dat
   }
 })
 
+})
+var rulex=new schedule.RecurrenceRule();
+rulex.minute=33;
+rulex.tz= 'Asia/Calcutta';
+const job = schedule.scheduleJob(rulex, function(){
+  console.log('The answer to life, the universe, and everything!');
 })
 var rule1 = new schedule.RecurrenceRule();
 rule1.dayOfWeek = 0;
