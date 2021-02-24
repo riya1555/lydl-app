@@ -163,7 +163,7 @@ if(fetched)
           color="primary"
           disabled={items[i].skipped}
         />
-        <TaskDetailsDialog item={items[i]}/>
+        <TaskDetailsDialog item={items[i]} handleMouseLeave={()=>handleMouseLeave(i)}/>
         <DeleteIcon onClick={(e)=>{deleteTask(e,i)}} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>
         <EditTask onClick={()=>handleMouseLeave(i)} item={items[i]} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>
         {items[i].skips>0&&(!items[i].skipped)&&(!items[i].completed)?<SkipNextIcon onClick={()=>skipTask(i)} item={items[i]} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>:""}

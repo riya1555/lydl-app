@@ -93,7 +93,7 @@ const taskSchema = new mongoose.Schema({
   },
   skipsperweek:{
     type:Number,
-    default:1
+    default:0
   },
   skips:{
     type:Number,

@@ -24,6 +24,7 @@ export default function TaskDetailsDialog(props) {
   const [opentaskDialog,setOpentaskDialog]=useState(false)
   function openTaskDetails(){
     setOpentaskDialog(true)
+    props.handleMouseLeave();
   }
   function closeTaskDetails(){
     setOpentaskDialog(false)

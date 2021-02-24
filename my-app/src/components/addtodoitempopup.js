@@ -132,7 +132,8 @@ const [task,setTask]=useState({
   repeat:'Never',
   repeatdays:[],
   taskTier:Number,
-  taskDescription:String
+  taskDescription:String,
+  skipsperweek:0
 })
 
 const handleClickOpen = () => {
@@ -170,6 +171,11 @@ arr.push(6);
 if(!repeat){
   arr=[]
 }
+if(arr.length>0){
+  task.repeat="Everyday"
+}
+else
+task.repeat="Never"
 setTask((task)=>{
     return {...task,repeatdays:arr}
   })
@@ -375,28 +381,27 @@ control={<Switch
          name="Sat"
          inputProps={{ 'aria-label': 'secondary checkbox' }}
        />}/>
-       </FormGroup></>}
+       </FormGroup>
+       <FormControl className={clsx(classes.margin, classes.withoutLabel, classes.textField)}>
+       <InputLabel id="demo-simple-select-helper-label">Skips per week</InputLabel>
+       <Select
+       labelId="demo-simple-select-helper-label"
+       id="demo-simple-select-helper"
+       value={task.skipsperweek}
+       onChange={handleChange('skipsperweek')}
+       >
+       <MenuItem value={0}>
+       <em>0</em>
+       </MenuItem>
+       {task.repeatdays.length>0?<MenuItem value={1}>1</MenuItem>:""}
+       {task.repeatdays.length>1?<MenuItem value={2}>2</MenuItem>:"" }
+       {task.repeatdays.length>2? <MenuItem value={3}>3</MenuItem>:""}
+       {task.repeatdays.length>3? <MenuItem value={4}>4</MenuItem>:""}
+       </Select>
+       </FormControl>
+       </>}
 </FormControl>
-<FormControl className={clsx(classes.margin, classes.withoutLabel, classes.textField)}>
-<InputLabel id="demo-simple-select-helper-label">Time</InputLabel>
-<Select
-labelId="demo-simple-select-helper-label"
-id="demo-simple-select-helper"
-onChange={handleChange('timeDuration')}
->
-<MenuItem value="">
-<em>None</em>
-</MenuItem>
-<MenuItem value={0.5}>0.5 hrs</MenuItem>
-<MenuItem value={1}>1 hrs</MenuItem>
-<MenuItem value={1.5}>1.5 hrs</MenuItem>
-<MenuItem value={2}>2 hrs</MenuItem>
-<MenuItem value={2.5}>2.5h hrs</MenuItem>
-<MenuItem value={3}>3 hrs</MenuItem>
-<MenuItem value={3.5}>3.5 hrs</MenuItem>
-<MenuItem value={4}>4 hrs</MenuItem>
-</Select>
-</FormControl>
+
 </div>
                 </div>
         </DialogContent>

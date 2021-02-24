@@ -16,7 +16,8 @@ passport.use(new GoogleStrategy({
     callbackURL: "https://lydl-app.herokuapp.com/auth/google/secrets"
   },
   function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id ,username:profile.id, pic:profile.photos[0].value,name:profile.displayName }, function (err, user) {
+    console.log(profile);
+    User.findOrCreate({ googleId: profile.id ,username:profile.id, pic:profile.photos[0].value,name:profile.displayName,email:profile.email }, function (err, user) {
       return cb(err, user);
     });
   }
