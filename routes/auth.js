@@ -17,9 +17,9 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log(profile);
-    User.findOrCreate({ googleId: profile.id ,username:profile.id, pic:profile.photos[0].value,name:profile.displayName,email:profile.email }, function (err, user) {
+    User.findOrCreate({ googleId: profile.id ,username:profile.id, pic:profile.photos[0].value,name:profile.displayName}, function (err, user) {
       return cb(err, user);
-    });
+    })
   }
 ));
 router.get("/ff",function(req,res){

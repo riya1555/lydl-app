@@ -1,17 +1,12 @@
 import React,{useState,useEffect,useCallback,useRef,useContext} from 'react';
 import {MyContext} from '../App.js'
-import {Link} from 'react-router-dom'
 import { useTransition, animated } from 'react-spring'
-import backg from './images/background.jpg'
 import listimg from './images/430291.jpg'
 import Grid from '@material-ui/core/Grid';
-import { Parallax } from 'react-parallax';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import TextField from '@material-ui/core/TextField';
 import { useHistory } from "react-router-dom";
 export const GetStarted=()=>{
@@ -53,7 +48,7 @@ function setwidd(){
 }
 function getstarted(){
   user.dispatch({type:"USER",payload:{email:email}})
-  history.push('/signup');
+  history.push('/signup/'+email);
 }
   return(
     < >
@@ -101,7 +96,7 @@ onChange={(e)=>setEmail(e.target.value)}
 </label>
 </Grid>
 <Grid item xs={10}>
-<i class="fa fa-google" aria-hidden="true" style={{color:'aqua'}}></i>
+<a href="/auth/google"><i class="fa fa-google" aria-hidden="true" style={{color:'aqua'}} ></i></a>
 <i class="fa fa-facebook-square" aria-hidden="true" style={{color:'aqua'}}></i>
 <i class="fa fa-facebook-square" aria-hidden="true" style={{color:'aqua'}}></i>
 <i class="fa fa-facebook-square" aria-hidden="true" style={{color:'aqua'}}></i>

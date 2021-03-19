@@ -65,12 +65,21 @@ function handleCheck(event,i){
     temp[i].completed=!temp[i].completed
     event.target.checked=!temp[i].completed
     if(temp[i].completed){
+      /*
+
       const idt=temp[i]._id
-      fetch("/taskcompleted/"+idt,{
-        method:"GET",
+      */
+
+
+      fetch("/taskcompleted",{
+        method:"POST",
         headers:{
             "Content-Type":"application/json"
         },
+        body:JSON.stringify({
+          _id:temp[i]._id,
+          date:new Date()
+        })
       }).then((j)=>{
         console.log(flipped);
         set(state => !state)
@@ -78,11 +87,15 @@ function handleCheck(event,i){
     }
     else if(!temp[i].completed){
       const idt=temp[i]._id
-      fetch("/undotaskcompleted/"+idt,{
-        method:"GET",
+      fetch("/undotaskcompleted",{
+        method:"POST",
         headers:{
             "Content-Type":"application/json"
         },
+        body:JSON.stringify({
+          _id:temp[i]._id,
+          date:new Date()
+        })
       }).then(()=>{
         console.log(flipped);
         set(state => !state)

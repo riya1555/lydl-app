@@ -14,6 +14,9 @@ import _ from "lodash";
 import SpringModal from './addtodoitempopup.js'
 import Navbar from './Navbar.js'
 import TaskDetailsDialog from './TaskDetailsDialog.js'
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditTask from './editdialog.js'
+
 const useStyles = makeStyles((theme) => ({
   root: {
   },
@@ -159,6 +162,9 @@ if(fetched)
           onMouseLeave={()=>handleMouseLeave(i)}
         >
         <TaskDetailsDialog item={items[i]}/>
+        <DeleteIcon onClick={(e)=>{deleteTask(e,i)}} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>
+        <EditTask onClick={()=>handleMouseLeave(i)} item={items[i]} style={{float:"right",display:viewProperty[i]?'block':'none'}}/>
+
         </animated.div>
       )})}
     </ul>

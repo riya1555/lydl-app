@@ -79,9 +79,9 @@ const taskSchema = new mongoose.Schema({
     type:Number,
     default:0
   },
-  datesDone:[{
-    type:Date
-  }],
+  datesDone:[
+      [{type:Number}]
+      ],
   active:{
     type:Boolean
   },

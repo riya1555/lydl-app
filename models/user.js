@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema({
   everydayTasks:[{
     type:ObjectId,ref:"Task"
   }]
+  ,premiumuser:{
+    type:Boolean,
+    default:false
+  }
 })
 userSchema.plugin(passportLocalMongoose)
 userSchema.plugin(findOrCreate)

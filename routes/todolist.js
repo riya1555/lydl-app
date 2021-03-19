@@ -9,6 +9,18 @@ const cors = require('cors')
 router.use(cors())
 var schedule = require('node-schedule');
 
+/*
+import { zonedTimeToUtc } from 'date-fns-tz'
+
+const date = getDatePickerValue() // e.g. 2014-06-25 10:00:00 (picked in any time zone)
+const timeZone = getTimeZoneValue() // e.g. America/Los_Angeles
+
+const utcDate = zonedTimeToUtc(date, timeZone) // In June 10am in Los Angeles is 5pm UTC
+
+postToServer(utcDate.toISOString(), timeZone) // post 2014-06-25T17:00:00.000Z, America/Los_Angeles
+*/
+
+
 
 /*
 
@@ -41,10 +53,11 @@ Task.findById("6035fe8489c2bd978897aab0",function(err,task){
 
 var rule = new schedule.RecurrenceRule();
 rule.dayOfWeek = [new schedule.Range(0, 6)];
-rule.hour = 0;
-rule.minute = 1;
+rule.hour = 1;
+rule.minute = 20;
 rule.tz = 'Asia/Kolkata';
 
+/*
 const date=new Date();
 console.log(date);
 date.setHours(date.getHours()+5);
@@ -52,14 +65,48 @@ date.setMinutes(date.getMinutes()+30);
 console.log(date);
 const dateyesterday=(new Date(date.getFullYear(),date.getMonth(),date.getDate()-1))
 
+*/
+
+const date=new Date();
+console.log(date);
+date.setHours(date.getHours()+5);
+date.setMinutes(date.getMinutes()+30);
+console.log(date.getDate());
+const dateyesterday=date
+dateyesterday.setUTCHours(0)
+dateyesterday.setUTCMinutes(0)
+dateyesterday.setUTCSeconds(0)
+dateyesterdayy=[dateyesterday.getDate(),dateyesterday.getMonth(),dateyesterday.getFullYear()]
+console.log(dateyesterdayy);
+Task.find({repeat:"Everyday",datesDone:{$in:[dateyesterdayy]}},function (err, docs) {
+  if (err){
+      console.log(err)
+  }
+  else{
+      console.log("Updated Docs : ",docs);
+  }
+})
+
+
+
+
+
+
 
 var j = schedule.scheduleJob(rule, function(){
   const date=new Date();
   console.log(date);
   date.setHours(date.getHours()+5);
   date.setMinutes(date.getMinutes()+30);
+  console.log(date.getDate());
   const dateyesterday=(new Date(date.getFullYear(),date.getMonth(),date.getDate()-1))
-  Task.updateMany({repeat:"Everyday",datesDone:{$in:[dateyesterday]}},{completed:false,$inc:{streak:1}},function (err, docs) {
+  console.log(dateyesterday);
+  dateyesterday.setUTCHours(0)
+  dateyesterday.setUTCMinutes(0)
+  dateyesterday.setUTCSeconds(0)
+  const dateyesterdayy=[dateyesterday.getDate(),dateyesterday.getMonth(),dateyesterday.getFullYear()]
+
+  Task.updateMany({repeat:"Everyday",datesDone:{$in:[dateyesterdayy]}},{completed:false,$inc:{streak:1}},{multi: true},function (err, docs) {
     if (err){
         console.log(err)
     }
@@ -68,7 +115,7 @@ var j = schedule.scheduleJob(rule, function(){
     }
 })
 
-Task.updateMany({repeat:"Everyday",streak:{$gt:0},datesDone:{$nin:[dateyesterday]}},{streak:0},function (err, docs) {
+Task.updateMany({repeat:"Everyday",streak:{$gt:0},datesDone:{$nin:[dateyesterdayy]}},{streak:0},function (err, docs) {
   if (err){
       console.log(err)
   }
@@ -76,14 +123,13 @@ Task.updateMany({repeat:"Everyday",streak:{$gt:0},datesDone:{$nin:[dateyesterday
       console.log("Updated Docs : ",docs);
   }
 })
-Task.updateMany({repeat:"Everyday",skipped:true,datesSkipped:{$in:[dateyesterday]}},{skipped:false},function (err, docs) {
+Task.updateMany({repeat:"Everyday",skipped:true,datesSkipped:{$in:[dateyesterdayy]}},{skipped:false},{multi: true},function (err, docs) {
   if (err){
       console.log(err)
   }
   else{
       console.log("Updated Docs : ",docs);
   }
-})
 })
 User.find({},function(err,users){
   users.forEach((user)=>{
@@ -108,6 +154,9 @@ User.find({},function(err,users){
     })
   })
 })
+})
+
+/*
 User.updateMany({email:"jayantchaudharyextra@gmail.com"}, {
   $inc: {
     level: 1
@@ -118,13 +167,17 @@ User.updateMany({email:"jayantchaudharyextra@gmail.com"}, {
 User.find({email:"jayantchaudharyextra@gmail.com"}, function(err, n) {
   console.log(err, n);
 })
+*/
+
+
 /*
 var rulex=new schedule.RecurrenceRule();
 rulex.minute=33;
 rulex.tz= 'Asia/Calcutta';
 const job = schedule.scheduleJob(rulex, function(){
   console.log('The answer to life, the universe, and everything!');
-})*/
+})
+*/
 
 
 var rule1 = new schedule.RecurrenceRule();
@@ -133,10 +186,13 @@ rule1.hour = 0;
 rule1.minute = 1;
 rule1.tz = 'Asia/Kolkata';
 schedule.scheduleJob(rule1, function(){
+  /*
   const date=new Date();
   console.log(date);
   date.setHours(date.getHours()+5);
-  date.setMinutes(date.getMinutes()+30);
+  date.setMinutes(date.getMinutes()+30);  */
+
+
 
   Task.updateMany({repeat:"Everyday"},[{$set:{skips:"$skipsperweek"}}],function (err, docs) {
     if (err){
@@ -284,15 +340,23 @@ goal.save().then((resp) => {
       })
 })
 })
-router.get("/taskcompleted/:id",requireLogin,(req,res)=>{
-  const newdate=new Date()
+router.post("/taskcompleted",requireLogin,(req,res)=>{
+  console.log(req.body);
+  const newdate=new Date(req.body.date)
+  /*
+
   console.log(newdate)
   newdate.setHours(newdate.getHours()+5)
   newdate.setMinutes(newdate.getMinutes()+30)
+  */
+  newdate.setUTCSeconds(0)
+  newdate.setUTCMinutes(0)
+  newdate.setUTCHours(0)
+console.log(newdate);
   console.log(newdate);
-  Task.findByIdAndUpdate(req.params.id,{completed:true,$push:{datesDone:new Date(newdate.getFullYear(),newdate.getMonth(),newdate.getDate())}} ,function (err, task) {
+  Task.findByIdAndUpdate(req.body._id,{completed:true,$push:{datesDone:[newdate.getDate(),newdate.getMonth(),newdate.getFullYear()]}} ,function (err, task) {
     if(!err){
-      console.log("taskcompleted",req.params.id,task)
+      console.log("taskcompleted",req.body._id,task)
     }
   })
   console.log(req.user.taskscompleted)
@@ -305,16 +369,23 @@ router.get("/taskcompleted/:id",requireLogin,(req,res)=>{
         }
       })
 })
-router.get("/undotaskcompleted/:id",requireLogin,(req,res)=>{
-  const newdate=new Date()
+router.post("/undotaskcompleted",requireLogin,(req,res)=>{
+  console.log(req.body)
+  const newdate=new Date(req.body.date)
   console.log(newdate)
+  /*
+
   newdate.setHours(newdate.getHours()+5)
   newdate.setMinutes(newdate.getMinutes()+30)
   console.log(newdate);
-  console.log("undo",req.params.id)
-  Task.findByIdAndUpdate(req.params.id,{completed:false,$pull:{datesDone:new Date(newdate.getFullYear(),newdate.getMonth(),newdate.getDate())}} ,function (err, task) {
+  */
+  newdate.setUTCSeconds(0)
+  newdate.setUTCMinutes(0)
+  newdate.setUTCHours(0)
+  console.log("undo",req.body._id)
+  Task.findByIdAndUpdate(req.body._id,{completed:false,$pull:{datesDone:[newdate.getDate(),newdate.getMonth(),newdate.getFullYear()]}} ,function (err, task) {
     if(!err){
-      console.log("taskcompleted",req.params.id,task)
+      console.log("taskcompleted",req.params._id,task)
     }
   })
   User.findOneAndUpdate({_id:req.user._id},{
