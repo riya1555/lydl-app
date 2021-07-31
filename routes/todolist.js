@@ -67,25 +67,25 @@ const dateyesterday=(new Date(date.getFullYear(),date.getMonth(),date.getDate()-
 
 */
 
-const date=new Date();
-console.log(date);
-date.setHours(date.getHours()+5);
-date.setMinutes(date.getMinutes()+30);
-console.log(date.getDate());
-const dateyesterday=date
-dateyesterday.setUTCHours(0)
-dateyesterday.setUTCMinutes(0)
-dateyesterday.setUTCSeconds(0)
-dateyesterdayy=[dateyesterday.getDate(),dateyesterday.getMonth(),dateyesterday.getFullYear()]
-console.log(dateyesterdayy);
-Task.find({repeat:"Everyday",datesDone:{$in:[dateyesterdayy]}},function (err, docs) {
-  if (err){
-      console.log(err)
-  }
-  else{
-      console.log("Updated Docs : ",docs);
-  }
-})
+// const date=new Date();
+// console.log(date);
+// date.setHours(date.getHours()+5);
+// date.setMinutes(date.getMinutes()+30);
+// console.log(date.getDate());
+// const dateyesterday=date
+// dateyesterday.setUTCHours(0)
+// dateyesterday.setUTCMinutes(0)
+// dateyesterday.setUTCSeconds(0)
+// dateyesterdayy=[dateyesterday.getDate(),dateyesterday.getMonth(),dateyesterday.getFullYear()]
+// console.log(dateyesterdayy);
+// Task.find({repeat:"Everyday",datesDone:{$in:[dateyesterdayy]}},function (err, docs) {
+//   if (err){
+//       console.log(err)
+//   }
+//   else{
+//       console.log("Updated Docs : ",docs);
+//   }
+// })
 
 
 
