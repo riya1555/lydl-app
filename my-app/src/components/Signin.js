@@ -23,7 +23,7 @@ function Copyright() {
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
         Riya Chaudhary
-      </Link>{' '}
+      </Link>{''}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
